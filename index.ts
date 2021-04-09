@@ -31,7 +31,7 @@ connect(`mongodb+srv://${config.DB_USERNAME}:${config.DB_PASSWORD}@${config.DB_D
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
-    app.listen(80, () => {
+    app.listen(8080, () => {
         console.log(`app is up and listening on port 80`)
     });
 })
