@@ -26,7 +26,7 @@ app.use(session({
 app.use([passport.initialize(), passport.session()]);
 app.use(Router);
 
-connect(`mongodb://${config.DB_USERNAME}:${config.DB_PASSWORD}@${config.DB_DOMAIN}/${config.DB_NAME}`, {
+connect(`mongodb+srv://${config.DB_USERNAME}:${config.DB_PASSWORD}@${config.DB_DOMAIN}/${config.DB_NAME}`, {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true
