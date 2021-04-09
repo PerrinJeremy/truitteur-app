@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { Image } from "../models/image";
 import { createConnection, mongo } from 'mongoose';
+import config from '../config';
 
-const connect = createConnection('mongodb://localhost:27017/botMind', { useNewUrlParser: true, useUnifiedTopology: true });
+const connect = createConnection(`mongodb+srv://${config.DB_USERNAME}:${config.DB_PASSWORD}@${config.DB_DOMAIN}/${config.DB_NAME}`, { useNewUrlParser: true, useUnifiedTopology: true });
 
 let gfs: any;
 
@@ -26,7 +27,7 @@ export default class ImageController {
                 }
 
                 let newImage = new Image({
-                    caption:  req.body.caption,
+                    caption: req.body.caption,
                     filename: req.file.filename,
                     fileId: req.file.id,
                 });
@@ -38,8 +39,9 @@ export default class ImageController {
                             image,
                         });
                     })
-                    .catch(err => {                        
-                        res.status(500).json(err)});
+                    .catch(err => {
+                        res.status(500).json(err)
+                    });
             })
             .catch(err => res.status(500).json(err));
     }
