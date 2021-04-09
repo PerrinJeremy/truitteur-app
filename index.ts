@@ -12,7 +12,13 @@ import config from './config';
 
 const app = express()
 app.use(json());
-app.use(cors())
+
+app.use(cors({
+    origin: ['https://perrinjeremy.github.io'],
+    methods: ["GET", "HEAD", "PUT", "POST", "PATCH", "DELETE", "OPTIONS"],
+    optionsSuccessStatus: 200
+}))
+
 app.use(session({
     secret: 'keyboard cat',
     resave: true,
