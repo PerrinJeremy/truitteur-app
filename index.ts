@@ -12,12 +12,7 @@ import config from './config';
 
 const app = express()
 app.use(json());
-const corsHandler = cors({
-    origin: [config.APP_SERVER_FRONT_END ? config.APP_SERVER_FRONT_END : 'http://localhost:4200'],
-    methods: ["GET", "HEAD", "PUT", "POST", "PATCH", "DELETE", "OPTIONS"],
-    optionsSuccessStatus: 200
-});
-app.use(corsHandler)
+app.use(cors())
 app.use(session({
     secret: 'keyboard cat',
     resave: true,
