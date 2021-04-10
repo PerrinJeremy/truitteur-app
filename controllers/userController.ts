@@ -25,7 +25,7 @@ export default class UserController {
         const following = req.body.following;
         User.find({ _id: { $nin: following } }).sort({ followers: -1 }).limit(5)
             .then(async users => {
-                res.status(200).json({ user: users });
+                res.status(200).json({ users: users.map(user => user.toAuthJSON()) });
             })
             .catch(err => {
                 if (!err.statusCode) {
