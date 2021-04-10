@@ -26,10 +26,10 @@ export default class UserController {
         User.find({ _id: { $nin: following } }).limit(5)
             .then(async users => {
                 let result: any = [];
-                users.forEach(async user => {
+                for (let user of users) {
                     user.followers = await User.countDocuments({ following: { $all: [user.id] } })
                     result.push(user.toAuthJSON())
-                })
+                }
                 res.status(200).json({ users: result });
             })
             .catch(err => {
