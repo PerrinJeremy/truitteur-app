@@ -22,8 +22,8 @@ export default class UserController {
             });
     };
     getProposalList = (req: Request, res: Response, next: NextFunction) => {
-        const following = req.body.following;
-        User.find({ _id: { $nin: following } }).limit(5)
+        const { following, id } = req.body;
+        User.find({ $and: [{ _id: { $nin: following } }, { _id: { $ne: id } }] }).limit(5)
             .then(async users => {
                 let result: any = [];
                 for (let user of users) {
