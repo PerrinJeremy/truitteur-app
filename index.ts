@@ -14,7 +14,7 @@ const app = express()
 app.use(json());
 
 app.use(cors({
-    origin: ['https://perrinjeremy.github.io'],
+    origin: ['https://perrinjeremy.github.io','http://localhost:4200'],
     methods: ["GET", "HEAD", "PUT", "POST", "PATCH", "DELETE", "OPTIONS"],
     optionsSuccessStatus: 200
 }))
