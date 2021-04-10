@@ -13,7 +13,9 @@ export default Router()
     .use("/articles", article)
     // récupérer profil utilisateur par nom route publique
     .get('/tag/:name', userController.getUserByName)
-    // Router User avec middleware de vérification token
+    // récupérer profil utilisateur par nom route publique
+    .post('/list', userController.getProposalList)
+    // Router User avec middleware de vérification de token
     .use("/user", passport.authenticate('jwt'), user)
     // Route Authentification
     .use("/auth", auth)
