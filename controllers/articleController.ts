@@ -92,15 +92,11 @@ export default class ArticleController {
             });
     };
     deleteArticle = (req: Request, res: Response, next: NextFunction) => {
-        const articleId = req.params.postId;
+        const articleId = req.params.id;
         Article.findById(articleId)
             .then(article => {
                 if (!article) {
                     const error = new Error('Article introuvable');
-                    throw error;
-                }
-                if (article.author !== req.body.author) {
-                    const error = new Error('Non authorisé');
                     throw error;
                 }
                 return Article.findByIdAndRemove(articleId);
