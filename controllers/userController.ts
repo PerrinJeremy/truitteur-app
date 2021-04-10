@@ -23,7 +23,7 @@ export default class UserController {
     };
     getProposalList = (req: Request, res: Response, next: NextFunction) => {
         const following = req.body.following;
-        User.find({ _id: { $nin: following } }).sort({ followers: -1 }).limit(5)
+        User.find({ _id: { $nin: following } }).sort({ 'followers.length': -1 }).limit(5)
             .then(async users => {
                 res.status(200).json({ users: users.map(user => user.toAuthJSON()) });
             })
