@@ -23,21 +23,39 @@ export default class UserController {
     };
     getProposalList = (req: Request, res: Response, next: NextFunction) => {
         const { following, id } = req.body;
-        User.find({ $and: [{ _id: { $nin: following } }, { _id: { $ne: id } }] }).limit(5)
-            .then(async users => {
-                let result: any = [];
-                for (let user of users) {
-                    user.followers = await User.countDocuments({ following: { $all: [user.id] } })
-                    result.push(user.toAuthJSON())
-                }
-                res.status(200).json({ users: result });
-            })
-            .catch(err => {
-                if (!err.statusCode) {
-                    err.statusCode = 500;
-                }
-                next(err);
-            });
+        if (id == "") {
+            User.find({ _id: { $nin: following } }).limit(5)
+                .then(async users => {
+                    let result: any = [];
+                    for (let user of users) {
+                        user.followers = await User.countDocuments({ following: { $all: [user.id] } })
+                        result.push(user.toAuthJSON())
+                    }
+                    res.status(200).json({ users: result });
+                })
+                .catch(err => {
+                    if (!err.statusCode) {
+                        err.statusCode = 500;
+                    }
+                    next(err);
+                });
+        } else {
+            User.find({ $and: [{ _id: { $nin: following } }, { _id: { $ne: id } }] }).limit(5)
+                .then(async users => {
+                    let result: any = [];
+                    for (let user of users) {
+                        user.followers = await User.countDocuments({ following: { $all: [user.id] } })
+                        result.push(user.toAuthJSON())
+                    }
+                    res.status(200).json({ users: result });
+                })
+                .catch(err => {
+                    if (!err.statusCode) {
+                        err.statusCode = 500;
+                    }
+                    next(err);
+                });
+        }
     };
     getUserByName = (req: Request, res: Response, next: NextFunction) => {
         const name = req.params.name;
