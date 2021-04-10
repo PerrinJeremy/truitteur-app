@@ -25,14 +25,11 @@ export default class UserController {
         const following = req.body.following;
         User.find({ _id: { $nin: following } }).limit(5)
             .then(async users => {
-                let result = users.map(async user => {
-                    console.log('in map', user);
-                    
+                let result: any = [];
+                users.forEach(async user => {
                     user.followers = await User.countDocuments({ following: { $all: [user.id] } })
-                    return user.toAuthJSON()
+                    result.push(user.toAuthJSON())
                 })
-                console.log(result);
-                
                 res.status(200).json({ users: result });
             })
             .catch(err => {
