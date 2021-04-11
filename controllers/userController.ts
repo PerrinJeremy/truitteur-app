@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { User } from '../models/user';
+import { Article } from '../models/article';
 
 export default class UserController {
 
@@ -11,7 +12,10 @@ export default class UserController {
                     const error = new Error('Utilisateur inexistant');
                     throw error;
                 }
+                //Ajout nombre abonnés
                 user.followers = await User.countDocuments({ following: { $all: [userId] } })
+                //Ajout nombre articles
+                user.articles = await Article.countDocuments({ 'author.id': userId })
                 res.status(200).json(user.toAuthJSON());
             })
             .catch(err => {
@@ -28,6 +32,7 @@ export default class UserController {
                 .then(async users => {
                     let result: any = [];
                     for (let user of users) {
+                        //Ajout nombre abonnés
                         user.followers = await User.countDocuments({ following: { $all: [user.id] } })
                         result.push(user.toAuthJSON())
                     }
@@ -44,6 +49,7 @@ export default class UserController {
                 .then(async users => {
                     let result: any = [];
                     for (let user of users) {
+                        //Ajout nombre abonnés
                         user.followers = await User.countDocuments({ following: { $all: [user.id] } })
                         result.push(user.toAuthJSON())
                     }
@@ -65,7 +71,10 @@ export default class UserController {
                     const error = new Error('Utilisateur inexistant');
                     throw error;
                 }
+                //Ajout nombre abonnés
                 user[0].followers = await User.countDocuments({ following: { $all: [user[0]._id] } })
+                //Ajout nombre articles
+                user[0].articles = await Article.countDocuments({ 'author.id': user[0].id })
                 res.status(200).json(user[0].toAuthJSON());
             })
             .catch(err => {

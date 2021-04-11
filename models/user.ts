@@ -18,6 +18,7 @@ export interface IUser extends Document {
   followers: Number;
   banner: string;
   picture: string;
+  articles:number;
 }
 
 export const userSchema: Schema<IUser> = new Schema({
@@ -39,7 +40,7 @@ export const userSchema: Schema<IUser> = new Schema({
     unique: true,
   },
   likes: [String],
-  following: [String]
+  following: [String],
 });
 
 const salt = 10;
@@ -74,7 +75,8 @@ userSchema.methods = {
       following: this.following,
       followers: this.followers,
       picture: this.picture,
-      banner: this.banner
+      banner: this.banner,
+      articles: this.articles
     };
   }
 }
