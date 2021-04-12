@@ -50,13 +50,17 @@ articleSchema.methods = {
         let matching = this.content.match(matcher);
         if (matching) {
             let url: string = matching[0]
-            return await linkPreview(matching[0]).then((res: any) => {
+            return await getLinkPreview(url, {
+                headers: {
+                    "user-agent": "googlebot",
+                },
+            }).then((res: any) => {
                 console.log(res);
-                this.url.url = url;
+                this.url.url = res.url;
                 this.url.title = res.title;
                 this.url.description = res.description;
-                this.url.domain = res.domain;
-                this.url.img = res.image;
+                this.url.domain = (new URL(res.url)).hostname.replace('www.','');
+                this.url.img = res.image[0] ? res.image[0] : '';
             })
         } else {
             return false
