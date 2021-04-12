@@ -46,14 +46,12 @@ const articleSchema: Schema<IArticle> = new Schema(
 
 articleSchema.methods = {
     setUrlPreview: async function () {
-        console.log(this.content);
-        
         let matcher = /(https?:\/\/[^ ]*)/;
         let matching = this.content.match(matcher);
         if (matching) {
-        console.log(matching);
-        return await linkPreview(matching[0]).then((res: any) => {
-                this.url.url = res.matching[0];
+            let url: string = matching[0]
+            return await linkPreview(matching[0]).then((res: any) => {
+                this.url.url = url;
                 this.url.title = res.title;
                 this.url.description = res.description;
                 this.url.domain = res.domain;
