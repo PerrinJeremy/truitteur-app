@@ -1,5 +1,5 @@
 import { Schema, model, Model, Document } from 'mongoose';
-const { linkPreview } = require('link-preview-node');
+const { getLinkPreview } = require('link-preview-js');
 
 export interface IArticle extends Document {
     content: string;
