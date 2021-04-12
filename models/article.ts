@@ -51,6 +51,7 @@ articleSchema.methods = {
         if (matching) {
             let url: string = matching[0]
             return await linkPreview(matching[0]).then((res: any) => {
+                console.log(res);
                 this.url.url = url;
                 this.url.title = res.title;
                 this.url.description = res.description;
