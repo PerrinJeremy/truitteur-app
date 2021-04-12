@@ -16,8 +16,7 @@ export default class ArticleController {
         res.status(200).json(articles);
     };
 
-    createArticle = (req: Request, res: Response, next: NextFunction) => {
-        console.log(req.body);
+    createArticle = async (req: Request, res: Response, next: NextFunction) => {
         const author = req.body.author;
         const content = req.body.text;
         const image = req.body.image;
@@ -27,6 +26,7 @@ export default class ArticleController {
             likes: 0,
             image
         });
+        await article.setUrlPreview();
         article
             .save()
             .then(() => {
@@ -40,6 +40,7 @@ export default class ArticleController {
                 }
                 next(err);
             });
+
     };
 
     updateArticle = (req: Request, res: Response, next: NextFunction) => {

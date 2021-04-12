@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { Schema, Model, Document, model, Error } from "mongoose";
+import { Schema, Model, Document, model } from "mongoose";
 import bcrypt from "bcrypt";
 import config from "../config";
 

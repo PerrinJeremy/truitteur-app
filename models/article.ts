@@ -1,18 +1,26 @@
 import { Schema, model, Model, Document } from 'mongoose';
+const { linkPreview } = require('link-preview-node');
 
 export interface IArticle extends Document {
-    content: String;
-    image: String,
+    content: string;
+    image: String;
     author: {
-        id: String,
-        name: String,
-        tag: String,
+        id: String;
+        name: String;
+        tag: String;
     };
-    likes: Number
-
+    likes: Number;
+    url: {
+        url: string;
+        title: string;
+        description: string;
+        img: string;
+        domain: string;
+    }
+    setUrlPreview(): any
 }
 
-const ArticleSchema = new Schema(
+const articleSchema: Schema<IArticle> = new Schema(
     {
         content: {
             type: String,
@@ -24,9 +32,34 @@ const ArticleSchema = new Schema(
             name: String,
             tag: String,
         },
-        likes: Number
+        likes: Number,
+        url: {
+            url: String,
+            title: String,
+            img: String,
+            domain: String,
+            description: String
+        }
     },
     { timestamps: true }
 );
 
-export const Article: Model<IArticle> = model('Article', ArticleSchema);
+articleSchema.methods = {
+    setUrlPreview: async function () {
+        let matcher = /(https?:\/\/[^ ]*)/;
+        let matching = this.content.match(matcher);
+        if (matching) {
+            return await linkPreview(matching[0]).then((res: any) => {
+                this.url.url = res.matching[0];
+                this.url.title = res.title;
+                this.url.description = res.description;
+                this.url.domain = res.domain;
+                this.url.img = res.image;
+            })
+        } else {
+            return false
+        }
+    }
+}
+
+export const Article: Model<IArticle> = model<IArticle>('Article', articleSchema);
