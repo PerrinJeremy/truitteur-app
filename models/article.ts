@@ -55,12 +55,11 @@ articleSchema.methods = {
                     "user-agent": "googlebot",
                 },
             }).then((res: any) => {
-                console.log(res);
                 this.url.url = res.url;
                 this.url.title = res.title;
                 this.url.description = res.description;
                 this.url.domain = (new URL(res.url)).hostname.replace('www.','');
-                this.url.img = res.image[0] ? res.image[0] : '';
+                this.url.img = res.images[0] ? res.images[0] : '';
             })
         } else {
             return false
