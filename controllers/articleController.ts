@@ -46,9 +46,8 @@ export default class ArticleController {
     updateArticle = (req: Request, res: Response, next: NextFunction) => {
         const articleId = req.params.id;
         const content = req.body.content;
-
         Article.findById(articleId)
-            .then(article => {
+            .then(async article => {
                 if (!article) {
                     const error = new Error('Article inexistant');
                     throw error;
@@ -58,6 +57,7 @@ export default class ArticleController {
                     throw error;
                 }
                 article.content = content;
+                await article.setUrlPreview();
                 return article.save();
             })
             .then(() => {
